@@ -63,6 +63,7 @@ EOF
     # ip of this box
     IP_ADDR=`ifconfig enp0s8 | grep Mask | awk '{print $2}'| cut -f2 -d:`
     # set node-ip
+    sudo sh -c 'echo KUBELET_EXTRA_ARGS= >> /etc/default/kubelet'
     sudo sed -i "/^[^#]*KUBELET_EXTRA_ARGS=/c\KUBELET_EXTRA_ARGS=--node-ip=$IP_ADDR" /etc/default/kubelet
     sudo systemctl restart kubelet
 SCRIPT
@@ -115,7 +116,7 @@ Vagrant.configure("2") do |config|
             config.vm.provider "virtualbox" do |v|
 
                 v.name = opts[:name]
-            	 v.customize ["modifyvm", :id, "--groups", "/Ballerina Development"]
+            	  v.customize ["modifyvm", :id, "--groups", "/Ballerina Development"]
                 v.customize ["modifyvm", :id, "--memory", opts[:mem]]
                 v.customize ["modifyvm", :id, "--cpus", opts[:cpu]]
 
