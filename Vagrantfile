@@ -52,7 +52,7 @@ $configureBox = <<-SCRIPT
     deb http://apt.kubernetes.io/ kubernetes-xenial main
 EOF
     apt-get update
-    apt-get install -y kubeadm=1.15.1-00 kubelet=1.15.1-00 kubectl=1.15.1-00
+    apt-get install -y kubeadm=1.16.4-00 kubelet=1.16.4-00 kubectl=1.16.4-00
 
     # kubelet requires swap off
     swapoff -a
@@ -84,8 +84,9 @@ $configureMaster = <<-SCRIPT
 
     # install Calico pod network addon
     export KUBECONFIG=/etc/kubernetes/admin.conf
-    kubectl apply -f https://docs.projectcalico.org/v3.3/getting-started/kubernetes/installation/hosted/rbac-kdd.yaml
-    kubectl apply -f https://docs.projectcalico.org/v3.3/getting-started/kubernetes/installation/hosted/kubernetes-datastore/calico-networking/1.7/calico.yaml
+    # only valid for previous versions of calico
+    # kubectl apply -f https://docs.projectcalico.org/v3.10/getting-started/kubernetes/installation/hosted/rbac-kdd.yaml
+    kubectl apply -f https://docs.projectcalico.org/v3.10/getting-started/kubernetes/installation/hosted/kubernetes-datastore/calico-networking/1.7/calico.yaml
 
     kubeadm token create --print-join-command >> /etc/kubeadm_join_cmd.sh
     chmod +x /etc/kubeadm_join_cmd.sh
